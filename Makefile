@@ -5,10 +5,10 @@
 ## Login   <ghocha@esgi.fr>
 ##
 ## Started on  Thu Dec  8 19:41:43 2016 Gabriel Hochart
-## Last update Fri Dec 16 21:13:09 2016 Gabriel Hochart
+## Last update Tue Dec 20 00:05:17 2016 Gabriel Hochart
 ##
 
-NAME	= fsociety
+NAME	= codec
 
 CC	= gcc -g3
 
@@ -16,7 +16,7 @@ CFLAGS	= -Wall -Wextra
 CFLAGS	+= -Iinclude
 LDFLAGS	= -lSDLmain -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
 
-SRCS	= sources/mr_robot.c \
+SRCS	= sources/codec.c \
 
 OBJS	= $(SRCS:.c=.o)
 
