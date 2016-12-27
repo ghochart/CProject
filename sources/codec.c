@@ -5,10 +5,15 @@
 ** Login   <ghocha@esgi.fr>
 **
 ** Started on  Fri Dec 16 20:56:30 2016 Gabriel Hochart
-** Last update Tue Dec 20 00:05:34 2016 Gabriel Hochart
+** Last update Mon Dec 26 21:10:46 2016 Gabriel Hochart
 */
 
 #include "codec.h"
+#include <unistd.h>
+
+#define GREEN
+
+int	puterror(char *);
 
 int main()
 {
@@ -31,19 +36,16 @@ void	get_matrice()
   int	len;
   int	ok = 0;
 
-  printf("Veuillez entrer le nom du fichier contenant la matrice\n");
   while (ok != 1)
     {
+      printf("Name of the file with the matrix : ");
       strcpy(filename, my_gets(filename, 255));
       if ((len = strlen(filename)) < 5) // Format .txt ?
-	printf("Veuillez entrer un nom de fichier valide\n");
+	printf("Filename incorrect\n");
       else if (strcmp(filename + (len - 4), ".txt") != 0)
-	printf("Le fichier doit etre au format '.txt'\n");
+	printf("Filename incorrect (.txt needed)\n");
       else if (check_matrice(filename) == 1)
-	{
-	  printf ("ERREUR MATRICE\n");
-	  return ;
-	}
+	printf ("Matrix error\n");
       else
 	{
 	  printf("c'est ok\n");
@@ -85,15 +87,15 @@ int	check_matrice(char *filename)
 	    }
 	}
       else
-	{
-	  printf("Erreur de matrice\n");
-	  return (1);
-	}
+	return (puterror("Matrix error\n"));
     }
   else
-    {
-      printf("Ce fichier n'existe pas\n");
-      return (1);
-    }
+    return (puterror("This file does not exist or you don't have the right to access it\n"));
   return (0);
+}
+
+int	puterror(char *str)
+{
+  write(2, (str++), strlen(str));
+  return (1);
 }
