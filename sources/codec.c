@@ -5,19 +5,28 @@
 ** Login   <ghocha@esgi.fr>
 **
 ** Started on  Fri Dec 16 20:56:30 2016 Gabriel Hochart
-** Last update Mon Dec 26 21:10:46 2016 Gabriel Hochart
+** Last update Sat Dec 31 11:56:36 2016 Gabriel Hochart
 */
 
 #include "codec.h"
 #include <unistd.h>
 
-#define GREEN
-
-int	puterror(char *);
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+#define BLUE    "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN    "\x1b[36m"
+#define RESET   "\x1b[0m"
 
 int main()
 {
-  printf("Bienvenue\n");
+  printf(GREEN"   ______    ___   ______   ________    ______ \n");
+  printf(" .' ___  | .'   `.|_   _ `.|_   __  | .' ___  |\n");
+  printf("/ .'   \\_|/  .-.  \\ | | `. \\ | |_ \\_|/ .'   \\_| \n");
+  printf("| |       | |   | | | |  | | |  _| _ | |       \n");
+  printf("\\ `.___.'\\\\  `-'  /_| |_.' /_| |__/ |\\ `.___.'\\ \n");
+  printf(" `.____ .' `.___.'|______.'|________| `.____ .' \n\n"RESET);
   get_matrice();
   return (0);
 }
@@ -38,17 +47,17 @@ void	get_matrice()
 
   while (ok != 1)
     {
-      printf("Name of the file with the matrix : ");
+      printf(RESET"Name of the file with the matrix : ");
       strcpy(filename, my_gets(filename, 255));
       if ((len = strlen(filename)) < 5) // Format .txt ?
-	printf("Filename incorrect\n");
+	printf(RED"\nFilename incorrect\n\n");
       else if (strcmp(filename + (len - 4), ".txt") != 0)
-	printf("Filename incorrect (.txt needed)\n");
+	printf(RED"\nFilename incorrect (.txt needed)\n\n");
       else if (check_matrice(filename) == 1)
-	printf ("Matrix error\n");
+	printf (RED"\nMatrix error\n\n");
       else
 	{
-	  printf("c'est ok\n");
+	  printf(GREEN"\nc'est ok\n\n");
 	  ok = 1;
 	}
     }
@@ -65,7 +74,7 @@ int	check_matrice(char *filename)
 
   if ((file = fopen(filename, "r")))
     {
-      printf("ca rentre\n");
+      printf(GREEN"ca rentre\n");
       fread(str, sizeof(char), 255, file);
       while (str[i] != '\0' && str[i] != '[')
 	i++;
@@ -87,10 +96,10 @@ int	check_matrice(char *filename)
 	    }
 	}
       else
-	return (puterror("Matrix error\n"));
+	return (puterror(RED"Matrix error\n"));
     }
   else
-    return (puterror("This file does not exist or you don't have the right to access it\n"));
+    return (puterror(RED"This file does not exist or you don't have the right to access it\n"));
   return (0);
 }
 
