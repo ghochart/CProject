@@ -5,7 +5,7 @@
 ** Login   <ghocha@esgi.fr>
 **
 ** Started on  Fri Dec 16 20:56:30 2016 Gabriel Hochart
-** Last update Sat Dec 31 11:56:36 2016 Gabriel Hochart
+** Last update Sat Dec 31 12:34:04 2016 Gabriel Hochart
 */
 
 #include "codec.h"
@@ -21,6 +21,8 @@
 
 int main()
 {
+  int	action;
+
   printf(GREEN"   ______    ___   ______   ________    ______ \n");
   printf(" .' ___  | .'   `.|_   _ `.|_   __  | .' ___  |\n");
   printf("/ .'   \\_|/  .-.  \\ | | `. \\ | |_ \\_|/ .'   \\_| \n");
@@ -28,6 +30,12 @@ int main()
   printf("\\ `.___.'\\\\  `-'  /_| |_.' /_| |__/ |\\ `.___.'\\ \n");
   printf(" `.____ .' `.___.'|______.'|________| `.____ .' \n\n"RESET);
   get_matrice();
+  printf(RESET"Do you wan't to encode or decode the file ?\n");
+  action = get_action();
+  if (action == 0)
+    get_file("encode");
+  else if (action == 1)
+    get_file("decode");
   return (0);
 }
 
@@ -37,6 +45,29 @@ char    *my_gets(char *str, int size)
   if (str[strlen(str) - 1] == '\n')
     str[strlen(str) - 1] = '\0';
   return (str);
+}
+
+int	get_action()
+{
+  char	action[7];
+
+  while (1)
+    {
+      strcpy(action, my_gets(action, 7));
+      if ((strcmp(action, "encode") == 0))
+	return (0);
+      else if ((strcmp(action, "decode") == 0))
+	return (1);
+      printf(RED"\"encode\" or \"decode\" the file ?\n"RESET);
+    }
+}
+
+void	get_file(char *action)
+{
+  char	filename[255];
+
+  printf(RESET"Name of the file you wan't to %s : ", action);
+  strcpy(filename, my_gets(filename, 255));
 }
 
 void	get_matrice()
@@ -96,15 +127,16 @@ int	check_matrice(char *filename)
 	    }
 	}
       else
-	return (puterror(RED"Matrix error\n"));
+	return (1);
+      fclose(file);
     }
   else
-    return (puterror(RED"This file does not exist or you don't have the right to access it\n"));
+    return (puterror(RED"This file does not exist or you don't have the right to access it\n", 2));
   return (0);
 }
 
-int	puterror(char *str)
+int	puterror(char *str, int fd)
 {
-  write(2, (str++), strlen(str));
-  return (1);
+  write(fd, (str++), strlen(str));
+  return (fd);
 }
