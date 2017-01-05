@@ -51,12 +51,12 @@ uint16_t ConvertStringTo2Octals (unsigned char string[13])
     return octal;
 }
 
-void getHennouMatrixG4(unsigned char matrix[4] )
+void getHennouMatrixG4(unsigned char matrix[4], const char * matrixPath)
 {
     unsigned char stringOctal[9] = {'\0'};
     FILE * file;
     
-    file = fopen(HENNOU_MATRIX_PATH, "r+b");
+    file = fopen(matrixPath, "r+b");
     
     if(file != NULL)
     {
